@@ -7,7 +7,7 @@ def prGr60(file):
 			elif not line:
 				break
 
-file = "file.txt"
+file = "classworks/23.01.2020/file.txt"
 prGr60(file)
 
 	

@@ -36,5 +36,5 @@ def maxOnEven(nums):
             m = nums[i]
     return m
 
-file = "numbers.txt"
+file = "homeworks/13. Файлы/numbers.txt"
 

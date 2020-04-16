@@ -13,8 +13,8 @@ def write_matrix(file, m):
         f.write("\n")
     f.close()
 
-a = read_matrix('a.txt')
-b = read_matrix('b.txt')
+a = read_matrix('classworks/23.01.2020/a.txt')
+b = read_matrix('classworks/23.01.2020/b.txt')
 
 if len(a[0]) != len(b) or len(a) != len(b) or len(a[0]) != len(b[0]):
     print("Incorrect input data")
@@ -30,5 +30,5 @@ for i in range(m):
         for k in range(len(a[0])):
             ab[i][j] += a[i][k] * b[k][j]
 
-write_matrix("ab.txt", ab)
+write_matrix("classworks/23.01.2020/ab.txt", ab)
 

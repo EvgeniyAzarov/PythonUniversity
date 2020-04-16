@@ -60,7 +60,7 @@ class BiQuEq(QuEq):
 
 eqs = []
 
-with open('eqs.txt') as file:
+with open('classworks/27.02.2020/eqs.txt') as file:
     for line in file:
         coef = tuple(map(float, line.split()))
         if len(coef) == 2:
