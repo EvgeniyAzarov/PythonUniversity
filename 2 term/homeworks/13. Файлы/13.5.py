@@ -52,6 +52,6 @@ print(n)
 
 print("a) ", count_even(n))
 print("b) ", count_odd_squares(n))
-print("c) ", max_even_odd_diff(n))
+print("c.py) ", max_even_odd_diff(n))
 print("d) ", longest_increase_subseq(n))
 
