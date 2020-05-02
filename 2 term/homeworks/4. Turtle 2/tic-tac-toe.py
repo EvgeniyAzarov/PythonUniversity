@@ -9,8 +9,8 @@ from toe import Toe
 # set up turtle
 t.home()
 t.speed(10)
-#t.ht()
-#t.shape('circle')
+# t.ht()
+# t.shape('circle')
 t.width(3)
 
 b_size = 400
@@ -18,7 +18,11 @@ board = Board(b_size, 2)
 board.show()
 
 board = [[None for i in range(3)] for j in range(3)]
-coords = [[(i * b_size / 3, j * b_size / 3) for i in range(-1, 2)] for j in range(-1, 2)]
+coords = [
+    [
+        (i * b_size / 3, j * b_size / 3) for i in range(-1, 2)
+    ] for j in range(-1, 2)
+]
 
 turn = 0
 title = Inscription(0, b_size / 2 + 20)
@@ -53,7 +57,8 @@ def check_end_game():
                 if board[i][j].get_type() != board[i][j + 1].get_type():
                     break
             else:
-                return "\'{}\' wins!".format("X" if board[i][0].get_type() == 1 else "O")
+                return "\'{}\' wins!"\
+                    .format("X" if board[i][0].get_type() == 1 else "O")
         except AttributeError:
             full = False
 
@@ -63,7 +68,8 @@ def check_end_game():
                 if board[j][i].get_type() != board[j + 1][i].get_type():
                     break
             else:
-                return "\'{}\' wins!".format("X" if board[0][i].get_type() == 1 else "O")
+                return "\'{}\' wins!"\
+                    .format("X" if board[0][i].get_type() == 1 else "O")
         except AttributeError:
             full = False
 
@@ -72,13 +78,15 @@ def check_end_game():
             if board[i][i].get_type() != board[i + 1][i + 1].get_type():
                 break
         else:
-            return "\'{}\' wins!".format("X" if board[0][0].get_type() == 1 else "O")
+            return "\'{}\' wins!"\
+                .format("X" if board[0][0].get_type() == 1 else "O")
 
         for i in range(2):
-            if board[i][2 - i].get_type() != board[i + 1][2 - i - 1].get_type():
+            if board[i][2 - i].get_type() != board[i + 1][1 - i].get_type():
                 break
         else:
-            return "\'{}\' wins!".format("X" if board[0][2].get_type() == 1 else "O")
+            return "\'{}\' wins!"\
+                .format("X" if board[0][2].get_type() == 1 else "O")
     except AttributeError:
         full = False
 
@@ -102,7 +110,8 @@ def click_controller(x, y):
                 m = dist
 
     if board[a][b] is None:
-        board[a][b] = Cross(*coords[a][b], b_size / 5) if turn % 2 == 0 else Toe(*coords[a][b], b_size / 5)
+        board[a][b] = Cross(*coords[a][b], b_size / 5) \
+            if turn % 2 == 0 else Toe(*coords[a][b], b_size / 5)
         board[a][b].show()
 
         turn += 1
