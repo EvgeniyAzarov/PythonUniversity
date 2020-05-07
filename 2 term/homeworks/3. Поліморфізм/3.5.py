@@ -1,6 +1,6 @@
 from Matrix3D import Matrix3D
 from Solver import Solver
-from Vector import *
+from Vector import Vector3D
 
 filename = 'sle3D.txt'
 a = Matrix3D()
