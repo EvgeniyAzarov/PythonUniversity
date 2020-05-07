@@ -19,6 +19,10 @@ def changeSize():
     global n
     n = int(sizeBox.get())
 
+    for i in range(3):
+        for j in range(3):
+            labelsSol[i][j].config(text='')
+
     for i in range(maxSize):
         labelsEq[i].grid_forget()
         freeCoefs[i].grid_forget()
@@ -55,7 +59,6 @@ sizeBox.grid(row=0, column=5, pady=(0,10), sticky=N+S)
 
 coefs = [[Entry(centerFrame, width=4, textvariable=DoubleVar(value=0)) \
     for i in range(maxSize)] for j in range(maxSize)]
-
 freeCoefs = [Entry(centerFrame, width=4, textvariable=DoubleVar(value=0)) \
     for i in range(maxSize)]
 
@@ -65,6 +68,11 @@ labelsSign = [[Label(centerFrame, text=" + ") \
     for j in range(maxSize - 1)] for i in range(maxSize)]
 labelsEq = [Label(centerFrame, text=" = ") \
     for i in range(maxSize)]
+
+labelsSol = [[Label(bottomFrame) for i in range(3)] for i in range(3)]
+for i in range(3):
+    for j in range(3):
+        labelsSol[i][j].grid(row=j, column=i, padx=(0, 40), pady=(0, 10))
 
 changeSize()
 
@@ -82,7 +90,11 @@ def solve(event):
     s = Solver(m, v)
 
     try:
-        print(s.solve())
+        sol = s.solve()
+        for i in range(3):
+            for j in range(3):
+                if 3*i+j < len(sol):
+                    labelsSol[i][j].config(text=sol[3*i+j])
     except ValueError as e:
         messagebox.showwarning("Warning", str(e))
 

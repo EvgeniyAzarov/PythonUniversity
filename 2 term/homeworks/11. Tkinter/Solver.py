@@ -17,4 +17,7 @@ class Solver:
             t.set(copy.deepcopy(self.a.matrix))
             t.set_column(self.b.vec, i)
             sol.append(t.det() / det)
+
+        for i in range(self.n):
+            sol[i] = f"x{i+1} = " + str(sol[i])
         return sol
