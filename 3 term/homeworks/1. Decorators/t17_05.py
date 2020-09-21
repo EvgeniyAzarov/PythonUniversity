@@ -2,9 +2,12 @@ def input_type(perm_type) :
     def _input_type_(f):
         def __input_type__(*args, **kwargs):
             all_args = args + tuple(kwargs.values())
-            for arg in all_args :
+            for arg in all_args:
                 if not type(arg) is perm_type:
-                    raise KeyError("Argument \'{}\' must be of type {}".format(arg, perm_type))
+                    raise KeyError(
+                        "Argument \'{}\' must be of type {}" \
+                            .format(arg, perm_type)
+                    )
                     break
             else:
                 res = f(*args, **kwargs)
@@ -22,7 +25,8 @@ def amean(*args, **kwargs):
         s += x
     return s / len(a)
 
+
 if __name__ == '__main__':
     print(amean(1.1, 1.2))
-    print(amean('a', 1,2,3))
-    print(amean(1,2,3))
+    print(amean('a', 1, 2, 3))
+    print(amean(1, 2, 3))
