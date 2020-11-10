@@ -37,7 +37,7 @@ def scan_dir(dirPath: str):
     for root, dirs, files in os.walk(dirPath):
         for name in files:
             filePath = os.path.join(root, name)
-            res[filePath] = os.path.getctime(filePath)
+            res[filePath] = os.path.getmtime(filePath)
         for name in dirs:
             res[name] = ""
 
@@ -54,4 +54,3 @@ if __name__ == '__main__':
     
     write_cache(cache_name, dirDict)
 
-    print(dirDict)
