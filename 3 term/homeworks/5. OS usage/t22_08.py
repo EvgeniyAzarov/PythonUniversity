@@ -16,35 +16,42 @@ def write_cache(cache_name: str, dirDict: dict):
     
 
 def read_cache(cache_name: str):
-    with open(cache_name, "r") as f:
-        cache = json.load(f)
+    cache = {}
+    if os.path.isfile(cache_name):
+        with open(cache_name, "r") as f:
+            cache = json.load(f)
     return cache
         
 
-def compare_versions(dirOld, dirNew):
+def compare_versions(dirOld: dict, dirNew: dict):
     pass
 
 
-if __name__ == '__main__':
-    dirPath = input("Directory path: ")
-    dirDict = {}
-
+def scan_dir(dirPath: str): 
     if not os.path.isdir(dirPath):
         print(f"{dirPath} is not a directory")
         exit()
 
+    res = {}
+
     for root, dirs, files in os.walk(dirPath):
         for name in files:
             filePath = os.path.join(root, name)
-            dirDict[filePath] = os.path.getctime(filePath)
+            res[filePath] = os.path.getctime(filePath)
         for name in dirs:
-            dirDict[name] = ""
+            res[name] = ""
 
+    return res
+
+   
+if __name__ == '__main__':
+    dirPath = input("Directory path: ")
+    dirDict = scan_dir(dirPath)
+    
     cache_name = generate_cache_name(dirPath)
-
     dirOld = read_cache(cache_name)
-    print(dirOld)
     compare_versions(dirDict, dirOld)
     
     write_cache(cache_name, dirDict)
 
+    print(dirDict)
