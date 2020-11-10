@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 from colorama import Style, Fore 
 from hashlib import md5
@@ -24,7 +25,34 @@ def read_cache(cache_name: str):
         
 
 def compare_versions(dirOld: dict, dirNew: dict):
-    pass
+    old_copy, new_copy = dirOld.copy(), dirNew.copy()
+    updated_list = []
+    deleted_list = []
+    created_list = dirNew.copy()
+    for name in dirOld:
+        if name not in dirNew.keys():
+            deleted_list.append(name)
+        elif dirOld[name] != dirNew[name]:
+            updated_list.append(name)
+            del created_list[name]
+        else:
+            del created_list[name]
+
+
+    if created_list:
+        print("Created")
+        for name in new_copy:
+            print(f"{Fore.GREEN}\t{name}{Style.RESET_ALL}")
+    
+    if deleted_list:
+        print("Deleted")
+        for name in deleted_list:
+            print(f"{Fore.RED}\t{name}{Style.RESET_ALL}")
+
+    if updated_list:
+        print("Updated")
+        for name in updated_list:
+            print(f"{Fore.BLUE}\t{name}{Style.RESET_ALL}")
 
 
 def scan_dir(dirPath: str): 
@@ -39,18 +67,25 @@ def scan_dir(dirPath: str):
             filePath = os.path.join(root, name)
             res[filePath] = os.path.getmtime(filePath)
         for name in dirs:
-            res[name] = ""
+            res[os.path.join(root, name)] = ""
 
     return res
 
    
 if __name__ == '__main__':
-    dirPath = input("Directory path: ")
-    dirDict = scan_dir(dirPath)
-    
-    cache_name = generate_cache_name(dirPath)
-    dirOld = read_cache(cache_name)
-    compare_versions(dirDict, dirOld)
-    
-    write_cache(cache_name, dirDict)
+    dirsPath = []
+    if len(sys.argv) > 1:
+        dirsPath = sys.argv[1:] 
+    else:
+        dirPath = input("Directory path: ")
+
+    for dirPath in dirsPath: 
+        print(f"Directory {dirPath}")
+        dirDict = scan_dir(dirPath)
+        
+        cache_name = generate_cache_name(dirPath)
+        dirOld = read_cache(cache_name)
+        compare_versions(dirOld, dirDict)
+        write_cache(cache_name, dirDict)
+        print("\n\n")
 
