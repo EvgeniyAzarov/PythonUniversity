@@ -25,7 +25,6 @@ def read_cache(cache_name: str):
         
 
 def compare_versions(dirOld: dict, dirNew: dict):
-    old_copy, new_copy = dirOld.copy(), dirNew.copy()
     updated_list = []
     deleted_list = []
     created_list = dirNew.copy()
