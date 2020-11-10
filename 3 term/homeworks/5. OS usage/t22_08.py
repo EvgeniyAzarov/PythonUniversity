@@ -40,7 +40,7 @@ def compare_versions(dirOld: dict, dirNew: dict):
 
     if created_list:
         print("Created")
-        for name in new_copy:
+        for name in created_list:
             print(f"{Fore.GREEN}\t{name}{Style.RESET_ALL}")
     
     if deleted_list:
