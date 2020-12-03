@@ -1,0 +1,7 @@
+person1@somemail.com : Hi all! What our homework?
+student@knu.asdf : Ikd, sorry
+person1@somemail.com : no problem. Anyone?
+best_student@asdf.fdsa : We shoud prove Jordan's theorem
+person1@somemail.com : Oh, it looks a bit hard...
+person1@somemail.com : Anyway, thanks :)
+best_student@asdf.fdsa: Y're welcome ;)
