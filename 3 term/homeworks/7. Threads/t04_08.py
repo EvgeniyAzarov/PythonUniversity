@@ -65,6 +65,7 @@ def statistic():
     global ssum
     while True:
         ssum += queue.qsize()
+        logging.warning(hotel.qsize())
         count += 1
         sleep(0.1)
        
