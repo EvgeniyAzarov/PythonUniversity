@@ -15,18 +15,18 @@ if __name__ == '__main__':
         print(soup.prettify, file=outfile)
 
     time = soup.find("span", id="theTime").text.split()
-    # На странице только один тег h4, повезло
     day = soup.find("h4").contents
     date_str = " ".join(day + time) 
     
-    right_date = datetime.strptime(date_str, " %A, %B %d, %Y %H:%M:%S %p")
+    right_date = datetime.strptime(date_str, " %A, %B %d, %Y %I:%M:%S %p")
     cur_date = datetime.today()
-
-    print("Current time: ", cur_date)
-    print("Rigth time: ", right_date)
-    print("Time delta: ", right_date - cur_date)
+    delta = cur_date - right_date
     
-    if cur_date - right_date > timedelta(seconds=10):
+    print("Current time: ", cur_date)
+    print("Right time: ", right_date)
+    print("Time delta: ", delta)
+    
+    if delta > timedelta(seconds=10):
         command = Template(CHANGE_DATE).substitute({"date": right_date})
         os.system(command)
         print("Time successfully synchronized")
