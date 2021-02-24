@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Vec check</title>
+</head>
+<body>
+	<h1><a href="/">Vec check</a></h1>	
+	<form method="POST" action="/cgi-bin/createform.py">
+		<p>
+			<h2><label for="n">Vec dim: </label></h2>
+			<input type="range" min="1" max="10" name="n" value="2" 
+				oninput="this.nextElementSibling.value = this.value">
+			<output>2</output>
+				</p>
+		<input type="submit" value="Next">
+	</form>
+</body>
+</html>

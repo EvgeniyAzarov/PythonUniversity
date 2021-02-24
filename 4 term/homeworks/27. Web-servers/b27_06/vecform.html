@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Vec check</title>
+</head>
+<body>
+	<h1><a href="/">Vec check</a></h1>	
+	<form method="POST" action="/cgi-bin/veccheck.py">
+		<p>
+			<table border="0" style="width: 80%">
+				<tr>
+					<td><label for="coords">Vec components: </label></td>
+					$coords
+				</tr> 
+			</table>
+		</p>
+		<p>
+			<label for="a">a: </label>
+			<input type="number" name="a">
+			<label for="b">b: </label>
+			<input type="number" name="b">
+		</p>
+
+		<input type="submit" value="Get result">
+	</form>
+</body>
+</html>
