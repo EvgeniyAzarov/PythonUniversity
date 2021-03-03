@@ -3,10 +3,11 @@
     <title>Add bill</title>
 </head>
 <body>
-    <form action="/add/" method="post">
+    <form action="" method="post">
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_p }}
         <input type="submit" value="Save">
+        <a href="/">Back</a>
     </form>
 </body>
 </html>

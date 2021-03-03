@@ -3,11 +3,12 @@
     <title>Bills</title>
 </head>
 <body>
-<a href="/add/">Add</a>
+<a href="add/">Add</a>
 {% if bills_list %}
     <ul>
         {% for bill in bills_list %}
-            <li><a href="/{{ bill.id }}/">{{ bill.number }} {{ bill.date }} {{ bill.client.name }}</a></li>
+            <li><a href="{{ bill.id }}/">{{ bill.number }} {{ bill.client.name }}
+                ({{ bill.date }})</a></li>
         {% endfor %}
     </ul>
 {% else %}
