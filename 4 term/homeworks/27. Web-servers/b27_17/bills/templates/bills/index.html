@@ -5,12 +5,20 @@
 <body>
 <a href="add/">Add</a>
 {% if bills_list %}
-    <ul>
-        {% for bill in bills_list %}
-            <li><a href="{{ bill.id }}/">{{ bill.number }} {{ bill.client.name }}
-                ({{ bill.date }})</a></li>
-        {% endfor %}
-    </ul>
+    <table>
+            {% for bill in bills_list %}
+                <form id="deleteForm" action="{% url 'bills:delete' bill.id %}" method="post">
+                    {% csrf_token %}
+                </form>
+                <tr>
+                    <td><a href="{{ bill.id }}/">{{ bill.number }} {{ bill.client.name }}
+                        ({{ bill.date }})</a></td>
+                    <td>
+                        <input form="deleteForm" type="submit" value="X">
+                    </td>
+                </tr>
+            {% endfor %}
+    </table>
 {% else %}
     <p>No bills are available.</p>
 {% endif %}

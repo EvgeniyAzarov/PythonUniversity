@@ -25,6 +25,12 @@ def add(request):
         return render(request, "bills/add.html", {'form': form})
 
 
+def delete(request, bill_id):
+    bill_obj = Bill.objects.get(id=bill_id)
+    bill_obj.delete()
+    return HttpResponseRedirect('/')
+
+
 def bill(request, bill_id):
     context = {}
     bill_name = str(Bill.objects.get(id=bill_id))

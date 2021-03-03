@@ -32,7 +32,7 @@ class Bill(models.Model):
 
 
 class BillItem(models.Model):
-    bill = models.ForeignKey(Bill, on_delete=models.DO_NOTHING)
+    bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
     quantity = models.IntegerField()
 
