@@ -1,0 +1,1 @@
+[{"model": "bills.client", "pk": 1, "fields": {"name": "Доміно", "email": "domino@com.ua"}}, {"model": "bills.client", "pk": 2, "fields": {"name": "Кондор", "email": "condor@com.ua"}}]

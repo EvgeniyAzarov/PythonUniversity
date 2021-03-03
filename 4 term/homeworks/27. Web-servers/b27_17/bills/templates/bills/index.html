@@ -1,0 +1,17 @@
+<html>
+<head>
+    <title>Bills</title>
+</head>
+<body>
+<a href="/add/">Add</a>
+{% if bills_list %}
+    <ul>
+        {% for bill in bills_list %}
+            <li><a href="/{{ bill.id }}/">{{ bill.number }} {{ bill.date }} {{ bill.client.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No bills are available.</p>
+{% endif %}
+</body>
+</html>

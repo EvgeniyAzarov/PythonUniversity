@@ -1,0 +1,1 @@
+[{"model": "bills.product", "pk": 1, "fields": {"name": "Олівець", "unit": "шт.", "price": 2.5}}, {"model": "bills.product", "pk": 2, "fields": {"name": "Ручка кулькова", "unit": "шт. ", "price": 4.7}}]
