@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .models import Bill, BillItem, Client
-from .forms import BillForm
+from .models import Bill, BillItem, Client, Product
+from .forms import BillForm, ItemForm
 
 
 def index(request):
@@ -14,10 +14,10 @@ def add(request):
     if request.method == "POST":
         form = BillForm(request.POST)
         if form.is_valid():
-            bill_data = form.cleaned_data
-            new_bill = Bill(number=bill_data['number'],
-                            date=bill_data['date'],
-                            client=Client.objects.get(id=bill_data['client']))
+            data = form.cleaned_data
+            new_bill = Bill(number=data['number'],
+                            date=data['date'],
+                            client=Client.objects.get(id=data['client']))
             new_bill.save()
         return HttpResponseRedirect('/')
     else:
@@ -32,9 +32,32 @@ def delete(request, bill_id):
 
 
 def bill(request, bill_id):
-    context = {}
-    bill_name = str(Bill.objects.get(id=bill_id))
-    context['bill'] = bill_name
-    items = BillItem.objects.filter(bill_id=bill_id)
-    context['bill_items'] = items
-    return render(request, "bills/bill.html", context)
+    if request.method == "POST":
+        form = ItemForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            bill_item = BillItem(bill_id=bill_id,
+                                 product=Product.objects.get(id=data['product']),
+                                 quantity=data['quantity'])
+            bill_item.save()
+        return HttpResponseRedirect(request.path_info)
+    else:
+        context = {}
+
+        form = ItemForm()
+        context['form'] = form
+
+        bill_obj = Bill.objects.get(id=bill_id)
+        context['bill'] = bill_obj
+
+        items = BillItem.objects.filter(bill_id=bill_id)
+        bill_items = []
+        for item in items:
+            bill_items.append({
+                'product': item.product.name,
+                'quantity': str(item.quantity) + item.product.unit,
+                'cost': item.product.price * item.quantity
+            })
+        context['bill_items'] = bill_items
+
+        return render(request, "bills/bill.html", context)

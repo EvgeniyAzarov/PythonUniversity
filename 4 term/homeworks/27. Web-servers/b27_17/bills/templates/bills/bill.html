@@ -16,10 +16,15 @@
 <p><h2>{{ bill }}</h2></p>
 {% if bill_items %}
     <table>
+    <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Cost</th>
+    </tr>
     {% for item in bill_items %}
         <tr>
-            <td>{{ item.product.name }}</td>
-            <td>{{ item.quantity }} {{ item.product.unit }}</td>
+            <td>{{ item.product }}</td>
+            <td>{{ item.quantity }}</td>
             <td>{{ item.cost }}</td>
         </tr>
     {% endfor %}
@@ -27,5 +32,11 @@
 {% else %}
     <p>This bill is empty</p>
 {% endif %}
+<br>
+<form action="{% url 'bills:bill' bill.id %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="Submit" value="Add item">
+</form>
 </body>
 </html>
