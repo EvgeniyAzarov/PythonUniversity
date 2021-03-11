@@ -1,9 +1,27 @@
 <html>
 <head>
     <title>Bills</title>
+    <style>
+        table {
+            border-collapse: separate;
+            border-spacing: 10px 6px;
+        }
+    </style>
 </head>
 <body>
-<a href="add/">Add</a>
+<table class="menu">
+    <tr>
+        <th>
+            <a href="add/"><button type="button">Add</button></a>
+        </th>
+        <th>
+            <a href="data/preview"><button type="button">View JSON</button></a>
+        </th>
+        <th>
+            <a href="data/download"><button type="button">Download JSON</button></a>
+        </th>
+    </tr>
+</table>
 {% if bills_list %}
     <table>
             {% for bill in bills_list %}

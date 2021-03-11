@@ -4,7 +4,7 @@ from .models import Client, Product
 
 class BillForm(forms.Form):
     number = forms.IntegerField(label="Number:")
-    date = forms.DateField(label="Date:")
+    date = forms.DateField(label="Date:", widget=forms.DateInput(attrs={'type':'date'}))
     client = forms.ChoiceField()
 
     def __init__(self, *args, **kwargs):

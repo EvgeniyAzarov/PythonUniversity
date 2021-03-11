@@ -1,5 +1,7 @@
+import json
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.conf import settings
 from .models import Bill, BillItem, Client, Product
 from .forms import BillForm, ItemForm
 
@@ -31,7 +33,7 @@ def delete(request, bill_id):
     return HttpResponseRedirect('/')
 
 
-def bill(request, bill_id):
+def bill_view(request, bill_id):
     if request.method == "POST":
         form = ItemForm(request.POST)
         if form.is_valid():
@@ -61,3 +63,55 @@ def bill(request, bill_id):
         context['bill_items'] = bill_items
 
         return render(request, "bills/bill.html", context)
+
+
+def export_data(request, action):
+    data = []
+    bills = Bill.objects.all()
+
+    for bill in bills:
+        bill_dict = {
+            'bill_id': bill.id,
+            'number': bill.number,
+            'client': {
+                'id': bill.client.id,
+                'name': bill.client.name,
+                'email': bill.client.email,
+            }
+        }
+
+        items = BillItem.objects.filter(bill=bill.id)
+        items_list = []
+        for item in items:
+            item_dict = {
+                'id': item.id,
+                'product': {
+                    'id': item.product.id,
+                    'name': item.product.name,
+                    'unit': item.product.unit,
+                    'price': item.product.price,
+                },
+                'quantity': item.quantity,
+            }
+            items_list.append(item_dict)
+
+        bill_dict['items'] = items_list
+        data.append(bill_dict)
+
+    if action == "preview":
+        data_json = json.dumps(data, indent=4)
+        return HttpResponse(data_json, content_type="application/json")
+    elif action == "download":
+        filepath = str(settings.BASE_DIR) + '/storage/files/data_export.json'
+        print(filepath)
+        with open(filepath, 'w') as file:
+            json.dump(data, file, indent=4)
+
+        file = open(filepath, 'r')
+        mime_type = "application/json"
+        response = HttpResponse(file, content_type=mime_type)
+        response['Content-Disposition'] = "attachment; filename={}"\
+            .format('data_export.json')
+        return response
+    else:
+        raise Http404("Not allowed action")

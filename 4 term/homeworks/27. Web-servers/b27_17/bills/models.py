@@ -19,7 +19,7 @@ class Product(models.Model):
 
 
 class Bill(models.Model):
-    number = models.IntegerField()
+    number = models.IntegerField(unique=True)
     date = models.DateField()
     client = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
 
