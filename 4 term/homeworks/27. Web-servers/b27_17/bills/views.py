@@ -1,4 +1,5 @@
 import json
+import xml.etree.ElementTree as et
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.conf import settings
@@ -65,7 +66,7 @@ def bill_view(request, bill_id):
         return render(request, "bills/bill.html", context)
 
 
-def export_data(request, action):
+def prepare_data():
     data = []
     bills = Bill.objects.all()
 
@@ -98,10 +99,62 @@ def export_data(request, action):
         bill_dict['items'] = items_list
         data.append(bill_dict)
 
-    if action == "preview":
+    return data
+
+
+def data_to_xml(data):
+    root = et.Element('bills')
+
+    for bill in data:
+        bill_el = et.SubElement(root, 'bill', {
+            'bill_id': str(bill['bill_id']),
+            'number': str(bill['number']),
+        })
+        et.SubElement(bill_el, 'client', {
+            'id': str(bill['client']['id']),
+            'name': bill['client']['name'],
+            'email': bill['client']['email']
+        })
+
+        items_el = et.SubElement(bill_el, 'items')
+        for item in bill['items']:
+            item_el = et.SubElement(items_el, 'item', {
+                'id': str(item['id']),
+                'quantity': str(item['quantity'])
+            })
+            et.SubElement(item_el, 'product', {
+                'id': str(item['product']['id']),
+                'name': item['product']['name'],
+                'unit': item['product']['unit'],
+                'price': str(item['product']['price'])
+            })
+
+    return root
+
+
+def export_data(request, action):
+    data = prepare_data()
+
+    if action == "previewXml":
+        xmltree = data_to_xml(data)
+        data_xml = et.tostring(xmltree, encoding='unicode', method='xml')
+        return HttpResponse(data_xml, content_type="application/xml")
+    elif action == "previewJson":
         data_json = json.dumps(data, indent=4)
         return HttpResponse(data_json, content_type="application/json")
-    elif action == "download":
+    elif action == "downloadXml":
+        filepath = str(settings.BASE_DIR) + '/storage/files/data_export.xml'
+        with open(filepath, 'w') as file:
+            xmltree = et.ElementTree(data_to_xml(data))
+            xmltree.write(file, encoding='unicode', xml_declaration=True)
+
+        file = open(filepath, 'r')
+        mime_type = "application/xml"
+        response = HttpResponse(file, content_type=mime_type)
+        response['Content-Disposition'] = "attachment; filename={}" \
+            .format('data_export.xml')
+        return response
+    elif action == "downloadJson":
         filepath = str(settings.BASE_DIR) + '/storage/files/data_export.json'
         print(filepath)
         with open(filepath, 'w') as file:
