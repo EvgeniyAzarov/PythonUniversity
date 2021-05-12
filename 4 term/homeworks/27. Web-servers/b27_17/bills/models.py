@@ -21,7 +21,7 @@ class Product(models.Model):
 class Bill(models.Model):
     number = models.IntegerField(unique=True)
     date = models.DateField()
-    client = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
 
     def __str__(self):
         bill_info = [
@@ -33,7 +33,7 @@ class Bill(models.Model):
 
 class BillItem(models.Model):
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
 
     def __str__(self):
